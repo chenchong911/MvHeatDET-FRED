@@ -3,7 +3,7 @@ train_dataloader:
   type: DataLoader
   dataset:
     type: SequenceDatasetSubset
-    ratio: 0.1
+    ratio: 0.3
     max_sequences: ~
     seed: 42
     shuffle: True
@@ -18,8 +18,8 @@ train_dataloader:
           - {type: RandomZoomOut, fill: 0}
           - {type: SanitizeBoundingBox, min_size: 1}
           - {type: RandomHorizontalFlip}
-          - {type: Resize, size: [288, 512]}
-          - {type: PadToSize, spatial_size: [512, 512], fill: 0}
+          - {type: Resize, size: [360, 640]}
+          - {type: PadToSize, spatial_size: [640, 640], fill: 0}
           - {type: ToImageTensor}
           - {type: ConvertDtype}
           - {type: SanitizeBoundingBox, min_size: 1}
@@ -39,7 +39,7 @@ val_dataloader:
   type: DataLoader
   dataset:
     type: SequenceDatasetSubset
-    ratio: 0.2
+    ratio: 0.3
     max_sequences: ~
     seed: 42
     shuffle: False
@@ -50,8 +50,8 @@ val_dataloader:
       transforms:
         type: Compose
         ops:
-          - {type: Resize, size: [288, 512]}
-          - {type: PadToSize, spatial_size: [512, 512], fill: 0}
+          - {type: Resize, size: [360, 640]}
+          - {type: PadToSize, spatial_size: [640, 640], fill: 0}
           - {type: ToImageTensor}
           - {type: ConvertDtype}
           - {type: ConvertBox, out_fmt: 'cxcywh', normalize: True}

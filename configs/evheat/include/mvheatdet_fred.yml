@@ -21,7 +21,7 @@ MvHeat_DET:
   layer_scale: 1.e-5
   use_checkpoint: False
   mlp_ratio: 4.0
-  img_size: 512
+  img_size: 640
   act_layer: 'GELU'
   infer_mode: False
 
@@ -30,11 +30,11 @@ RTDETRTransformer:
   feat_strides: [32]
   hidden_dim: 256
   num_levels: 1
-  num_queries: 50
-  num_decoder_layers: 3
+  num_queries: 100
+  num_decoder_layers: 4
   num_denoising: 100
   eval_idx: -1
-  eval_spatial_size: [512, 512]
+  eval_spatial_size: [640, 640]
 
 use_focal_loss: True
 
