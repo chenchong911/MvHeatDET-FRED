@@ -2,9 +2,9 @@
 train_dataloader:
   type: DataLoader
   dataset:
-    type: DatasetSubset
+    type: SequenceDatasetSubset
     ratio: 0.1
-    max_samples: 60000
+    max_sequences: ~
     seed: 42
     shuffle: True
     dataset:
@@ -27,7 +27,7 @@ train_dataloader:
       return_masks: False
       remap_mscoco_category: True
   shuffle: True
-  batch_size: 6
+  batch_size: 12
   num_workers: 4
   persistent_workers: False
   pin_memory: True
@@ -38,9 +38,9 @@ train_dataloader:
 val_dataloader:
   type: DataLoader
   dataset:
-    type: DatasetSubset
+    type: SequenceDatasetSubset
     ratio: 0.2
-    max_samples: 10000
+    max_sequences: ~
     seed: 42
     shuffle: False
     dataset:
@@ -58,7 +58,7 @@ val_dataloader:
       return_masks: False
       remap_mscoco_category: True
   shuffle: False
-  batch_size: 6
+  batch_size: 12
   num_workers: 4
   persistent_workers: False
   pin_memory: True
