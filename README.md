@@ -1,5 +1,7 @@
 # MvHeatDET-FRED
 
+[English](./README.md) | [简体中文](./README_zh-CN.md)
+
 `MvHeatDET-FRED` is an adaptation of `MvHeatDET` for the `FRED` event-camera drone detection dataset. The repository keeps the original MvHeatDET detection framework, replaces the dataset side with a FRED-specific COCO-style pipeline, and provides conversion scripts plus training/testing entrypoints for the FRED setting.
 
 This repo is suitable if you want to:

@@ -1,5 +1,7 @@
 # MvHeatDET-FRED
 
+[English](./README.md) | [简体中文](./README_zh-CN.md)
+
 `MvHeatDET-FRED` 是将 `MvHeatDET` 适配到 `FRED` 事件相机无人机检测数据集上的版本。这个仓库保留了原始 MvHeatDET 的检测框架，在数据侧接入了面向 FRED 的 COCO 风格数据流程，并提供了数据转换、训练和测试所需的入口脚本。
 
 如果你希望完成下面这些工作，这个仓库就是为此准备的：
