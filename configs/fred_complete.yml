@@ -1,0 +1,9 @@
+__include__: [
+  'dataset/FRED_detection.yml',
+  'runtime.yml',
+  'evheat/include/train_dataloader.yml',
+  'evheat/include/optimizer.yml',
+  'evheat/include/mvheatdet_fred.yml',
+]
+
+output_dir: /mnt/data/cc/FRED_output/MvHeatDET

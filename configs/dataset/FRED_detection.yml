@@ -1,0 +1,31 @@
+task: detection
+
+num_classes: 1  # Only drone class
+remap_mscoco_category: True
+
+train_dataloader: # COCO style
+  type: DataLoader
+  dataset: 
+    type: FREDDetection
+    img_folder: /mnt/data/cc/FRED/train
+    ann_file: /mnt/data/cc/FRED/coco_annotations/train.json
+    transforms:
+      type: Compose
+      ops: ~
+  shuffle: True
+  batch_size: ~
+  num_workers: 4
+  drop_last: True 
+
+
+val_dataloader:
+  type: DataLoader
+  dataset: 
+    type: FREDDetection
+    img_folder: /mnt/data/cc/FRED/test
+    ann_file: /mnt/data/cc/FRED/coco_annotations/test.json
+    transforms:
+      type: Compose
+      ops: ~ 
+
+  shuffle: False
