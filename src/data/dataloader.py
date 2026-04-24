@@ -1,5 +1,6 @@
 import torch 
 import torch.utils.data as data
+from torch.utils.data import Dataset
 
 from src.core import register
 
@@ -18,6 +19,43 @@ class DataLoader(data.DataLoader):
             format_string += "    {0}: {1}".format(n, getattr(self, n))
         format_string += "\n)"
         return format_string
+
+
+@register
+class DatasetSubset(Dataset):
+    __inject__ = ['dataset']
+
+    def __init__(self, dataset, ratio=1.0, max_samples=None, seed=42, shuffle=True):
+        self.dataset = dataset
+        dataset_len = len(dataset)
+
+        target_len = dataset_len
+        if ratio is not None:
+            target_len = min(target_len, max(1, int(dataset_len * float(ratio))))
+
+        if max_samples is not None:
+            target_len = min(target_len, int(max_samples))
+
+        if target_len >= dataset_len:
+            self.indices = list(range(dataset_len))
+        else:
+            generator = torch.Generator()
+            generator.manual_seed(int(seed))
+            if shuffle:
+                self.indices = torch.randperm(dataset_len, generator=generator)[:target_len].tolist()
+            else:
+                self.indices = list(range(target_len))
+
+        print(
+            f"DatasetSubset initialized: {len(self.indices)}/{dataset_len} samples "
+            f"(ratio={ratio}, max_samples={max_samples}, shuffle={shuffle})"
+        )
+
+    def __len__(self):
+        return len(self.indices)
+
+    def __getitem__(self, idx):
+        return self.dataset[self.indices[idx]]
 
 
 

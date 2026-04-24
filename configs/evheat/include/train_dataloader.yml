@@ -2,23 +2,30 @@
 train_dataloader:
   type: DataLoader
   dataset:
-    type: FREDDetection
-    img_folder: /mnt/data/cc/FRED/train
-    ann_file: /mnt/data/cc/FRED/coco_annotations/train.json
-    transforms:
-      type: Compose
-      ops:
-        - {type: RandomPhotometricDistort, p: 0.5}
-        - {type: RandomZoomOut, fill: 0}
-        - {type: SanitizeBoundingBox, min_size: 1}
-        - {type: RandomHorizontalFlip}
-        - {type: Resize, size: [640, 640]}
-        - {type: ToImageTensor}
-        - {type: ConvertDtype}
-        - {type: SanitizeBoundingBox, min_size: 1}
-        - {type: ConvertBox, out_fmt: 'cxcywh', normalize: True}
-    return_masks: False
-    remap_mscoco_category: True
+    type: DatasetSubset
+    ratio: 0.1
+    max_samples: 60000
+    seed: 42
+    shuffle: True
+    dataset:
+      type: FREDDetection
+      img_folder: /mnt/data/cc/FRED/train
+      ann_file: /mnt/data/cc/FRED/coco_annotations/train.json
+      transforms:
+        type: Compose
+        ops:
+          - {type: RandomPhotometricDistort, p: 0.5}
+          - {type: RandomZoomOut, fill: 0}
+          - {type: SanitizeBoundingBox, min_size: 1}
+          - {type: RandomHorizontalFlip}
+          - {type: Resize, size: [288, 512]}
+          - {type: PadToSize, spatial_size: [512, 512], fill: 0}
+          - {type: ToImageTensor}
+          - {type: ConvertDtype}
+          - {type: SanitizeBoundingBox, min_size: 1}
+          - {type: ConvertBox, out_fmt: 'cxcywh', normalize: True}
+      return_masks: False
+      remap_mscoco_category: True
   shuffle: True
   batch_size: 6
   num_workers: 4
@@ -31,18 +38,25 @@ train_dataloader:
 val_dataloader:
   type: DataLoader
   dataset:
-    type: FREDDetection
-    img_folder: /mnt/data/cc/FRED/test
-    ann_file: /mnt/data/cc/FRED/coco_annotations/test.json
-    transforms:
-      type: Compose
-      ops:
-        - {type: Resize, size: [640, 640]}
-        - {type: ToImageTensor}
-        - {type: ConvertDtype}
-        - {type: ConvertBox, out_fmt: 'cxcywh', normalize: True}
-    return_masks: False
-    remap_mscoco_category: True
+    type: DatasetSubset
+    ratio: 0.2
+    max_samples: 10000
+    seed: 42
+    shuffle: False
+    dataset:
+      type: FREDDetection
+      img_folder: /mnt/data/cc/FRED/test
+      ann_file: /mnt/data/cc/FRED/coco_annotations/test.json
+      transforms:
+        type: Compose
+        ops:
+          - {type: Resize, size: [288, 512]}
+          - {type: PadToSize, spatial_size: [512, 512], fill: 0}
+          - {type: ToImageTensor}
+          - {type: ConvertDtype}
+          - {type: ConvertBox, out_fmt: 'cxcywh', normalize: True}
+      return_masks: False
+      remap_mscoco_category: True
   shuffle: False
   batch_size: 6
   num_workers: 4
