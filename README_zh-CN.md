@@ -34,7 +34,6 @@
 MvHeatDET-FRED/
 |-- configs/
 |   |-- fred_complete.yml               # FRED 训练主配置
-|   |-- dataset/FRED_detection.yml      # 仅数据集相关配置
 |   `-- evheat/include/                 # 模型、优化器、dataloader 等子配置
 |-- src/
 |   |-- core/                           # YAML 配置系统与注册机制
@@ -47,8 +46,6 @@ MvHeatDET-FRED/
 |   |-- convert_fred_to_coco.py         # 单个 split 转换脚本
 |   |-- convert_all_fred_to_coco.py     # train/test 一键转换脚本
 |   `-- export_onnx.py                  # ONNX 导出辅助脚本
-|-- run_fred_training.py                # 训练流程便捷脚本
-|-- run_fred_training.sh                # Shell 便捷脚本
 |-- test_fred_dataset.py                # 数据集自检脚本
 `-- README.md                           # 英文版说明
 ```
@@ -238,28 +235,19 @@ python tools/train.py -c configs/fred_complete.yml -r /path/to/checkpoint.pth --
 
 评估使用的验证集 dataloader 定义在 [configs/evheat/include/train_dataloader.yml](/e:/ChenChong/project/MvHeatDET-FRED/configs/evheat/include/train_dataloader.yml) 中，对应的是 FRED 的 `test` split。
 
-## 便捷脚本
+## 命令入口
 
-仓库里还提供了两个辅助脚本：
+当前仓库只保留核心入口，流程更直接：
 
-- [run_fred_training.py](/e:/ChenChong/project/MvHeatDET-FRED/run_fred_training.py)
-- [run_fred_training.sh](/e:/ChenChong/project/MvHeatDET-FRED/run_fred_training.sh)
-
-示例用法：
-
-```bash
-python run_fred_training.py --prepare-data --train --data-path /mnt/data/cc/FRED
-python run_fred_training.py --test --checkpoint /path/to/checkpoint.pth --data-path /mnt/data/cc/FRED
-```
+- 使用 [tools/convert_all_fred_to_coco.py](/e:/ChenChong/project/MvHeatDET-FRED/tools/convert_all_fred_to_coco.py) 生成 COCO 标注。
+- 使用 [tools/train.py](/e:/ChenChong/project/MvHeatDET-FRED/tools/train.py) 进行训练和评估。
 
 ## 路径相关说明
 
 当前仓库中有几处默认写死了 Linux 风格的绝对路径：
 
 - [configs/fred_complete.yml](/e:/ChenChong/project/MvHeatDET-FRED/configs/fred_complete.yml)
-- [configs/dataset/FRED_detection.yml](/e:/ChenChong/project/MvHeatDET-FRED/configs/dataset/FRED_detection.yml)
 - [configs/evheat/include/train_dataloader.yml](/e:/ChenChong/project/MvHeatDET-FRED/configs/evheat/include/train_dataloader.yml)
-- [run_fred_training.py](/e:/ChenChong/project/MvHeatDET-FRED/run_fred_training.py)
 - [tools/convert_all_fred_to_coco.py](/e:/ChenChong/project/MvHeatDET-FRED/tools/convert_all_fred_to_coco.py)
 
 默认路径为：
@@ -275,9 +263,7 @@ python run_fred_training.py --test --checkpoint /path/to/checkpoint.pth --data-p
 ## 关键配置文件
 
 - [configs/fred_complete.yml](/e:/ChenChong/project/MvHeatDET-FRED/configs/fred_complete.yml)
-  FRED 主配置入口，聚合了数据集、运行时、dataloader、优化器和模型配置。
-- [configs/dataset/FRED_detection.yml](/e:/ChenChong/project/MvHeatDET-FRED/configs/dataset/FRED_detection.yml)
-  仅数据集相关的配置，使用 `FREDDetection`。
+  FRED 主配置入口，聚合了任务类别、运行时、dataloader、优化器和模型配置。
 - [configs/evheat/include/train_dataloader.yml](/e:/ChenChong/project/MvHeatDET-FRED/configs/evheat/include/train_dataloader.yml)
   训练与验证增强策略，以及 dataloader 参数。
 - [configs/evheat/include/optimizer.yml](/e:/ChenChong/project/MvHeatDET-FRED/configs/evheat/include/optimizer.yml)

@@ -1,7 +1,0 @@
-__include__: [
-  './include/dataloader.yml',
-  './include/optimizer.yml',
-  './include/mvheatdet_fred.yml',
-]
-
-output_dir: /mnt/data/cc/FRED_output/MvHeatDET

@@ -34,7 +34,6 @@ Compared with the original EvDET200K-oriented configuration, this FRED version m
 MvHeatDET-FRED/
 |-- configs/
 |   |-- fred_complete.yml               # Main FRED training config
-|   |-- dataset/FRED_detection.yml      # Dataset-only config
 |   `-- evheat/include/                 # Model, optimizer, dataloader includes
 |-- src/
 |   |-- core/                           # YAML config and registry system
@@ -47,8 +46,6 @@ MvHeatDET-FRED/
 |   |-- convert_fred_to_coco.py         # Single split converter
 |   |-- convert_all_fred_to_coco.py     # Train/test conversion wrapper
 |   `-- export_onnx.py                  # ONNX export helper
-|-- run_fred_training.py                # Convenience pipeline runner
-|-- run_fred_training.sh                # Shell wrapper
 |-- test_fred_dataset.py                # Dataset sanity check
 `-- README_zh-CN.md                     # Previous Chinese documentation
 ```
@@ -238,28 +235,19 @@ python tools/train.py -c configs/fred_complete.yml -r /path/to/checkpoint.pth --
 
 Evaluation uses the validation dataloader defined in [configs/evheat/include/train_dataloader.yml](/e:/ChenChong/project/MvHeatDET-FRED/configs/evheat/include/train_dataloader.yml), which points to the FRED `test` split.
 
-## Convenience Scripts
+## Command Entry Points
 
-Two helper scripts are included:
+The workflow now uses only the core scripts:
 
-- [run_fred_training.py](/e:/ChenChong/project/MvHeatDET-FRED/run_fred_training.py)
-- [run_fred_training.sh](/e:/ChenChong/project/MvHeatDET-FRED/run_fred_training.sh)
-
-Example usage:
-
-```bash
-python run_fred_training.py --prepare-data --train --data-path /mnt/data/cc/FRED
-python run_fred_training.py --test --checkpoint /path/to/checkpoint.pth --data-path /mnt/data/cc/FRED
-```
+- [tools/convert_all_fred_to_coco.py](/e:/ChenChong/project/MvHeatDET-FRED/tools/convert_all_fred_to_coco.py) generates COCO annotations.
+- [tools/train.py](/e:/ChenChong/project/MvHeatDET-FRED/tools/train.py) runs training and evaluation.
 
 ## Important Path Notes
 
 Several files currently assume Linux-style absolute paths by default:
 
 - [configs/fred_complete.yml](/e:/ChenChong/project/MvHeatDET-FRED/configs/fred_complete.yml)
-- [configs/dataset/FRED_detection.yml](/e:/ChenChong/project/MvHeatDET-FRED/configs/dataset/FRED_detection.yml)
 - [configs/evheat/include/train_dataloader.yml](/e:/ChenChong/project/MvHeatDET-FRED/configs/evheat/include/train_dataloader.yml)
-- [run_fred_training.py](/e:/ChenChong/project/MvHeatDET-FRED/run_fred_training.py)
 - [tools/convert_all_fred_to_coco.py](/e:/ChenChong/project/MvHeatDET-FRED/tools/convert_all_fred_to_coco.py)
 
 By default they point to:
@@ -275,9 +263,7 @@ If your dataset is stored elsewhere, update those paths before training.
 ## Key Config Files
 
 - [configs/fred_complete.yml](/e:/ChenChong/project/MvHeatDET-FRED/configs/fred_complete.yml)
-  Main FRED entry config. Includes dataset, runtime, dataloader, optimizer, and model settings.
-- [configs/dataset/FRED_detection.yml](/e:/ChenChong/project/MvHeatDET-FRED/configs/dataset/FRED_detection.yml)
-  Dataset-only config with `FREDDetection`.
+  Main FRED entry config. Includes task/category settings, runtime, dataloader, optimizer, and model settings.
 - [configs/evheat/include/train_dataloader.yml](/e:/ChenChong/project/MvHeatDET-FRED/configs/evheat/include/train_dataloader.yml)
   Training and validation transforms plus dataloader options.
 - [configs/evheat/include/optimizer.yml](/e:/ChenChong/project/MvHeatDET-FRED/configs/evheat/include/optimizer.yml)

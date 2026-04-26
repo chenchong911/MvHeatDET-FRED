@@ -1,9 +1,13 @@
 __include__: [
-  'dataset/FRED_detection.yml',
   'runtime.yml',
   'evheat/include/train_dataloader.yml',
   'evheat/include/optimizer.yml',
   'evheat/include/mvheatdet_fred.yml',
 ]
+
+# FRED is a single-class drone detection dataset.
+task: detection
+num_classes: 1
+remap_mscoco_category: True
 
 output_dir: /mnt/data/cc/FRED_output/MvHeatDET
