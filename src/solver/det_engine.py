@@ -165,6 +165,7 @@ def evaluate(model, criterion, postprocessors, data_loader, base_ds, device, out
     coco_evaluator.summarize()
     
     stats = {k: meter.global_avg for k, meter in metric_logger.meters.items()}
-    stats.update({k: v for k, v in coco_evaluator.stats.items()})
+    for iou_type, coco_eval in coco_evaluator.coco_eval.items():
+        stats[f'coco_eval_{iou_type}'] = coco_eval.stats
     
     return stats, coco_evaluator
