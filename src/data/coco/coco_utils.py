@@ -177,6 +177,11 @@ def get_coco_api_from_dataset(dataset):
             break
         if isinstance(dataset, torch.utils.data.Subset):
             dataset = dataset.dataset
+            continue
+        if hasattr(dataset, "dataset"):
+            dataset = dataset.dataset
+            continue
+        break
     if isinstance(dataset, torchvision.datasets.CocoDetection):
         return dataset.coco
     return convert_to_coco_api(dataset)
