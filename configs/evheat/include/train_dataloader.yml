@@ -3,7 +3,7 @@ train_dataloader:
   type: DataLoader
   dataset:
     type: SequenceDatasetSubset
-    ratio: 0.3
+    ratio: 1.0
     max_sequences: ~
     seed: 42
     shuffle: True
@@ -39,7 +39,7 @@ val_dataloader:
   type: DataLoader
   dataset:
     type: SequenceDatasetSubset
-    ratio: 0.3
+    ratio: 1.0
     max_sequences: ~
     seed: 42
     shuffle: False

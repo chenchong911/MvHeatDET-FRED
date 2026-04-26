@@ -13,7 +13,7 @@ MvHeat_DET:
   patch_size: 4
   in_chans: 3
   num_classes: 1  # Only drone class for FRED
-  depths: [2, 2, 9, 2]
+  depths: [2, 2, 6, 2]
   dims: [64, 128, 256, 512]
   drop_path_rate: 0.2
   patch_norm: True
