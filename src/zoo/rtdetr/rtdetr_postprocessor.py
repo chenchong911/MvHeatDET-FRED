@@ -40,7 +40,9 @@ class RTDETRPostProcessor(nn.Module):
 
         if self.use_focal_loss:
             scores = F.sigmoid(logits)
-            scores, index = torch.topk(scores.flatten(1), self.num_top_queries, axis=-1)
+            scores = scores.flatten(1)
+            topk = min(self.num_top_queries, scores.shape[-1])
+            scores, index = torch.topk(scores, topk, axis=-1)
             labels = index % self.num_classes
             index = index // self.num_classes
             boxes = bbox_pred.gather(dim=1, index=index.unsqueeze(-1).repeat(1, 1, bbox_pred.shape[-1]))
@@ -108,7 +110,9 @@ class VideoPostProcessor(nn.Module):
 
         if self.use_focal_loss:
             scores = F.sigmoid(logits)
-            scores, index = torch.topk(scores.flatten(1), self.num_top_queries, axis=-1)
+            scores = scores.flatten(1)
+            topk = min(self.num_top_queries, scores.shape[-1])
+            scores, index = torch.topk(scores, topk, axis=-1)
             labels = index % self.num_classes
             index = index // self.num_classes
             boxes = bbox_pred.gather(dim=1, index=index.unsqueeze(-1).repeat(1, 1, bbox_pred.shape[-1]))

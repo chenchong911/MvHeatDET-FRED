@@ -39,7 +39,7 @@ RTDETRTransformer:
 use_focal_loss: True
 
 RTDETRPostProcessor:
-  num_top_queries: 300
+  num_top_queries: 100
 
 
 SetCriterion:
