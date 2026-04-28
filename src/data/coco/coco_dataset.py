@@ -241,18 +241,9 @@ class ConvertCocoPolysToMask(object):
 #     1: 'car',
 # }
 
-#EvDET200k
+# FRED
 mscoco_category2name = {
-    1: 'people',
-    2: 'car',
-    3: 'bicycle',
-    4: 'electric bicycle',
-    5: 'basketball',
-    6: 'ping_pong',
-    7: 'goose',
-    8: 'cat',
-    9: 'bird',
-    10: 'UAV'
+    1: 'drone',
 }
 
 # ncaltech
